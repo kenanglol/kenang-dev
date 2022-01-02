@@ -25,7 +25,10 @@ SECRET_KEY = 'django-insecure-920dh28(t3sv-^#ws(5gi=vx1p%yebk95rp$kzar@2dfs*6#ye
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['www.kenang.dev', 'kenang.dev']
+ALLOWED_HOSTS = [
+    'www.kenang.dev', 'kenang.dev', '127.0.0.1', '::1', '164.92.219.223',
+    '10.110.0.2'
+]
 
 # Application definition
 
