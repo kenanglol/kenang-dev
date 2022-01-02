@@ -1,4 +1,4 @@
-name: Django CI
+name: Example CI Django & Postgres Tests
 
 on:
   push:
@@ -10,6 +10,17 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    services:
+      postgres_main:
+        image: postgres:12 
+        env:
+          POSTGRES_USER: django
+          POSTGRES_PASSWORD: 2e86249a0d02d8b4b3af202dcb40f8d5
+          POSTGRES_DB: django
+        ports:
+          - 5432:5432
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     strategy:
       max-parallel: 4
       matrix:
@@ -26,5 +37,16 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests
+      env:
+          DEBUG: "0"
+          DJANGO_SECRET_KEY: CI_CD_TEST_KEY
+          POSTGRES_USER: django
+          POSTGRES_PASSWORD: 2e86249a0d02d8b4b3af202dcb40f8d5
+          POSTGRES_DB: django
+          POSTGRES_PORT: 5432
       run: |
         python ash/manage.py test
+
+
+
+

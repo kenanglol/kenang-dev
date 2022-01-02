@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
@@ -25,8 +24,7 @@ SECRET_KEY = 'django-insecure-920dh28(t3sv-^#ws(5gi=vx1p%yebk95rp$kzar@2dfs*6#ye
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = ['www.kenang.dev', 'kenang.dev']
 
 # Application definition
 
@@ -69,7 +67,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'ash.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
@@ -80,25 +77,50 @@ DATABASES = {
     }
 }
 
+POSTGRES_DB = os.environ.get("POSTGRES_DB")  #database name
+POSTGRES_PASSWORD = os.environ.get(
+    "POSTGRES_PASSWORD")  # database user password
+POSTGRES_USER = os.environ.get("POSTGRES_USER")  # database username
+POSTGRES_HOST = os.environ.get("POSTGRES_HOST")  # database host
+POSTGRES_PORT = os.environ.get("POSTGRES_PORT")  # database port
+
+POSTGRES_READY = (POSTGRES_DB is not None and POSTGRES_PASSWORD is not None
+                  and POSTGRES_USER is not None and POSTGRES_HOST is not None
+                  and POSTGRES_PORT is not None)
+
+if POSTGRES_READY:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": POSTGRES_DB,
+            "USER": POSTGRES_USER,
+            "PASSWORD": POSTGRES_PASSWORD,
+            "HOST": POSTGRES_HOST,
+            "PORT": POSTGRES_PORT,
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME':
+        'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
@@ -112,7 +134,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
